@@ -3,471 +3,625 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grammar Island: Pronouns & Be Verbs Quest</title>
+  <title>Grammar Quest: Pronouns & Be Verbs</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #E0F7FA;
+      --bg-gradient: linear-gradient(180deg, #E0F7FA 0%, #FFFDE7 100%);
       --card-bg: #FFFFFF;
       --primary: #FF7043;
-      --am-color: #AB47BC;
-      --is-color: #29B6F6;
-      --are-color: #66BB6A;
-      --text-main: #37474F;
+      --primary-hover: #F4511E;
+      --accent: #26A69A;
+      --text: #37474F;
+      --text-light: #78909C;
+      --success: #2E7D32;
+      --error: #D32F2F;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(180deg, #E0F7FA 0%, #FFF9C4 100%);
-      color: var(--text-main);
+      background: var(--bg-gradient);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 20px 10px;
     }
 
-    header { text-align: center; margin-bottom: 25px; }
+    header { text-align: center; margin-bottom: 20px; }
     h1 {
       font-family: 'Fredoka One', cursive;
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       color: #FF5722;
       text-shadow: 2px 2px 0px #FFE082;
       margin-bottom: 8px;
     }
-    .nav-tabs { display: flex; gap: 15px; margin-top: 10px; }
-    .tab-btn {
-      font-family: 'Fredoka One', cursive;
-      font-size: 1.1rem;
-      padding: 10px 24px;
-      border: 3px solid #FF7043;
-      background: #FFF;
-      color: #FF7043;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .tab-btn.active, .tab-btn:hover {
-      background: #FF7043;
-      color: #FFF;
-      transform: scale(1.05);
+    p.subtitle {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-light);
     }
 
-    .container { width: 100%; max-width: 950px; }
+    .nav-tabs {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      padding: 10px 22px;
+      border: 3px solid var(--primary);
+      background: #FFF;
+      color: var(--primary);
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--primary);
+      color: #FFF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(255,112,67,0.3);
+    }
+
+    .container { width: 100%; max-width: 900px; margin-top: 10px; }
     .page-section { display: none; }
     .page-section.active { display: block; }
 
-    /* Part 1: Cards */
+    /* Part 1: Learning Flashcards */
+    .section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      color: #00838F;
+      margin: 15px 0 10px;
+      text-align: center;
+    }
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
     }
-    .pronoun-card {
+    .flashcard {
       background: var(--card-bg);
-      border-radius: 20px;
-      padding: 15px;
+      border-radius: 18px;
+      padding: 12px;
       text-align: center;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-      border: 4px solid #B2EBF2;
+      border: 3px solid #B2EBF2;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.06);
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.2s, border-color 0.2s;
     }
-    .pronoun-card:hover {
-      transform: translateY(-6px);
-      border-color: #FF7043;
+    .flashcard:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
     }
-    .svg-container {
-      width: 130px;
-      height: 130px;
-      margin: 0 auto 10px;
+    .img-box {
+      width: 100%;
+      height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 8px;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #F5FBFC;
     }
-    .card-title {
+    .img-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .card-word {
       font-family: 'Fredoka One', cursive;
-      font-size: 1.8rem;
-      color: #00897B;
-    }
-    .card-desc { font-size: 0.95rem; font-weight: 700; color: #78909C; margin: 4px 0; }
-    .card-sentence {
-      font-size: 0.95rem;
-      background: #FFF3E0;
-      padding: 6px;
-      border-radius: 10px;
+      font-size: 1.6rem;
       color: #E65100;
+    }
+    .card-meaning {
+      font-size: 0.85rem;
       font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .card-sentence {
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: #FFF3E0;
+      color: #D84315;
+      padding: 4px;
+      border-radius: 8px;
     }
 
-    /* Part 2: Game */
-    .game-board {
+    /* Part 1 Practice & Part 2 Game Board */
+    .quest-card {
       background: #FFFFFF;
-      border-radius: 25px;
-      padding: 25px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-radius: 24px;
+      padding: 25px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       text-align: center;
+      margin-top: 10px;
     }
-    .score-bar {
+    .status-bar {
       display: flex;
       justify-content: space-between;
       font-family: 'Fredoka One', cursive;
-      font-size: 1.3rem;
-      color: #546E7A;
-      margin-bottom: 20px;
-      padding: 0 20px;
+      font-size: 1.2rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+      padding: 0 10px;
     }
-    .question-box {
+
+    .question-area {
       background: #F1F8E9;
-      border: 3px dashed #8BC34A;
+      border: 3px dashed #AED581;
       border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 25px;
-      min-height: 220px;
+      padding: 20px 15px;
+      margin-bottom: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 240px;
     }
-    .target-pronoun {
-      font-family: 'Fredoka One', cursive;
-      font-size: 2.8rem;
-      color: #2E7D32;
+    .question-img {
+      width: 160px;
+      height: 150px;
+      border-radius: 16px;
       background: #FFF;
-      padding: 5px 30px;
-      border-radius: 50px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      margin-top: 10px;
-    }
-    .cauldrons-zone {
       display: flex;
-      justify-content: space-around;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      margin-bottom: 15px;
+      padding: 8px;
+    }
+    .question-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .sentence-display {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: #2E7D32;
+      line-height: 1.4;
+    }
+    .blank-pill {
+      display: inline-block;
+      min-width: 80px;
+      padding: 2px 14px;
+      background: #FFF;
+      border: 3px solid #81C784;
+      border-radius: 30px;
+      color: #1B5E20;
+    }
+
+    /* Interactive Options */
+    .options-grid {
+      display: flex;
+      justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
     }
-    .cauldron {
-      width: 170px;
-      padding: 15px 10px;
-      border-radius: 20px;
-      border: 4px solid transparent;
+    .choice-btn {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      padding: 12px 28px;
+      border-radius: 18px;
+      border: 3px solid transparent;
       cursor: pointer;
       color: #FFF;
+      transition: all 0.2s;
+      min-width: 100px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .choice-btn:hover { transform: translateY(-3px) scale(1.05); }
+
+    .btn-am { background: #AB47BC; border-color: #8E24AA; }
+    .btn-is { background: #29B6F6; border-color: #0288D1; }
+    .btn-are { background: #66BB6A; border-color: #388E3C; }
+    .btn-pronoun { background: #FFA726; border-color: #F57C00; }
+
+    .feedback-msg {
       font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      min-height: 40px;
+      margin-top: 15px;
+    }
+    .msg-correct { color: var(--success); }
+    .msg-wrong { color: var(--error); }
+
+    .action-btn {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      background: #26A69A;
+      color: #FFF;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 24px;
+      margin-top: 15px;
+      cursor: pointer;
       transition: 0.2s;
     }
-    .cauldron:hover { transform: scale(1.08); }
-    .cauldron-am { background: var(--am-color); border-color: #8E24AA; }
-    .cauldron-is { background: var(--is-color); border-color: #039BE5; }
-    .cauldron-are { background: var(--are-color); border-color: #43A047; }
-    .cauldron-name { font-size: 2.2rem; }
-    .cauldron-sub { font-size: 0.9rem; opacity: 0.9; }
-
-    .feedback {
-      height: 35px;
-      margin-top: 20px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      font-family: 'Fredoka One', cursive;
-    }
-    .correct { color: #2E7D32; }
-    .wrong { color: #D32F2F; }
+    .action-btn:hover { background: #00897B; }
   </style>
 </head>
 <body>
 
   <header>
     <h1>🏝️ Grammar Quest: Pronouns & Be Verbs</h1>
+    <p class="subtitle">Primary 1 English Interactive Learning Hub</p>
     <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('learn')">Part 1: Pronoun Cards</button>
-      <button class="tab-btn" onclick="switchTab('game')">Part 2: Potion Quest</button>
+      <button class="tab-btn active" onclick="switchSection('cards')">1. Learn Pronouns</button>
+      <button class="tab-btn" onclick="switchSection('practice')">2. Look & Pick</button>
+      <button class="tab-btn" onclick="switchSection('quiz')">3. Fill in 'is / am / are'</button>
     </div>
   </header>
 
   <main class="container">
-    <!-- Part 1: Pronoun Cards -->
-    <section id="learn-section" class="page-section active">
+    
+    <!-- SECTION 1: Pronoun Flashcards -->
+    <section id="cards-sec" class="page-section active">
+      <h2 class="section-title">Tap to Listen & Learn</h2>
       <div class="cards-grid">
         
-        <!-- Card: I -->
-        <div class="pronoun-card" onclick="speakText('I. I am Tom.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#FFF9C4" stroke="#FBC02D" stroke-width="3"/>
-              <!-- Head -->
-              <circle cx="50" cy="38" r="16" fill="#FFCC80"/>
-              <!-- Hair -->
-              <path d="M34 35 Q50 18 66 35 Q60 22 50 24 Q40 22 34 35 Z" fill="#5D4037"/>
-              <!-- Eyes & Smile -->
-              <circle cx="45" cy="38" r="2.2" fill="#37474F"/>
-              <circle cx="55" cy="38" r="2.2" fill="#37474F"/>
-              <path d="M47 44 Q50 48 53 44" stroke="#37474F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <!-- Body -->
-              <path d="M32 78 C32 58 68 58 68 78 Z" fill="#FBC02D"/>
-              <!-- Hands pointing to chest -->
-              <circle cx="44" cy="64" r="5" fill="#FFCC80"/>
-              <circle cx="56" cy="64" r="5" fill="#FFCC80"/>
-              <!-- Text Tag -->
-              <rect x="36" y="82" width="28" height="14" rx="7" fill="#E65100"/>
-              <text x="50" y="92" font-size="9" fill="#FFF" font-weight="bold" text-anchor="middle">ME</text>
-            </svg>
+        <div class="flashcard" onclick="speakText('I. I am a pupil.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=300&auto=format&fit=crop&q=80" alt="I" />
           </div>
-          <div class="card-title">I</div>
-          <div class="card-desc">我 (Self)</div>
-          <div class="card-sentence">I am Tom.</div>
+          <div class="card-word">I</div>
+          <div class="card-meaning">The speaker (Me)</div>
+          <div class="card-sentence">I am a pupil.</div>
         </div>
 
-        <!-- Card: You -->
-        <div class="pronoun-card" onclick="speakText('You. You are my friend.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#E8F5E9" stroke="#81C784" stroke-width="3"/>
-              <circle cx="50" cy="36" r="16" fill="#FFCC80"/>
-              <path d="M34 34 Q50 20 66 34" fill="#3E2723"/>
-              <circle cx="45" cy="35" r="2.2" fill="#37474F"/>
-              <circle cx="55" cy="35" r="2.2" fill="#37474F"/>
-              <path d="M47 42 Q50 46 53 42" stroke="#37474F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <path d="M30 76 C30 56 70 56 70 76 Z" fill="#4CAF50"/>
-              <!-- Hand pointing forward -->
-              <circle cx="50" cy="62" r="8" fill="#FFCC80" stroke="#388E3C" stroke-width="2"/>
-              <!-- Arrow targeting player -->
-              <path d="M50 78 L50 92 M44 86 L50 92 L56 86" stroke="#2E7D32" stroke-width="3" fill="none" stroke-linecap="round"/>
-            </svg>
+        <div class="flashcard" onclick="speakText('You. You are my friend.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&auto=format&fit=crop&q=80" alt="You" />
           </div>
-          <div class="card-title">You</div>
-          <div class="card-desc">你 / 你們</div>
-          <div class="card-sentence">You are my friend.</div>
+          <div class="card-word">You</div>
+          <div class="card-meaning">Person in front of me</div>
+          <div class="card-sentence">You are nice.</div>
         </div>
 
-        <!-- Card: He -->
-        <div class="pronoun-card" onclick="speakText('He. He is a boy.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#E1F5FE" stroke="#4FC3F7" stroke-width="3"/>
-              <circle cx="50" cy="38" r="16" fill="#FFCC80"/>
-              <!-- Boy's Cap -->
-              <path d="M34 34 Q50 20 66 34 L72 35 L66 38 L34 38 Z" fill="#0288D1"/>
-              <circle cx="46" cy="40" r="2.2" fill="#37474F"/>
-              <circle cx="54" cy="40" r="2.2" fill="#37474F"/>
-              <path d="M47 46 Q50 49 53 46" stroke="#37474F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <path d="M32 78 C32 58 68 58 68 78 Z" fill="#29B6F6"/>
-              <!-- Tag: Boy -->
-              <rect x="33" y="82" width="34" height="14" rx="7" fill="#0277BD"/>
-              <text x="50" y="92" font-size="8.5" fill="#FFF" font-weight="bold" text-anchor="middle">BOY</text>
-            </svg>
+        <div class="flashcard" onclick="speakText('He. He is my brother.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=300&auto=format&fit=crop&q=80" alt="He" />
           </div>
-          <div class="card-title">He</div>
-          <div class="card-desc">他 (One Boy)</div>
-          <div class="card-sentence">He is a boy.</div>
+          <div class="card-word">He</div>
+          <div class="card-meaning">One boy or man</div>
+          <div class="card-sentence">He is my brother.</div>
         </div>
 
-        <!-- Card: She -->
-        <div class="pronoun-card" onclick="speakText('She. She is a girl.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#FCE4EC" stroke="#F48FB1" stroke-width="3"/>
-              <!-- Ponytails -->
-              <circle cx="28" cy="38" r="8" fill="#5D4037"/>
-              <circle cx="72" cy="38" r="8" fill="#5D4037"/>
-              <circle cx="50" cy="38" r="16" fill="#FFCC80"/>
-              <path d="M34 34 Q50 20 66 34" fill="#5D4037"/>
-              <circle cx="46" cy="40" r="2.2" fill="#37474F"/>
-              <circle cx="54" cy="40" r="2.2" fill="#37474F"/>
-              <path d="M47 46 Q50 50 53 46" stroke="#37474F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <path d="M34 78 C34 60 66 60 66 78 Z" fill="#EC407A"/>
-              <rect x="33" y="82" width="34" height="14" rx="7" fill="#C2185B"/>
-              <text x="50" y="92" font-size="8.5" fill="#FFF" font-weight="bold" text-anchor="middle">GIRL</text>
-            </svg>
+        <div class="flashcard" onclick="speakText('She. She is my sister.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80" alt="She" />
           </div>
-          <div class="card-title">She</div>
-          <div class="card-desc">她 (One Girl)</div>
-          <div class="card-sentence">She is a girl.</div>
+          <div class="card-word">She</div>
+          <div class="card-meaning">One girl or woman</div>
+          <div class="card-sentence">She is my sister.</div>
         </div>
 
-        <!-- Card: It -->
-        <div class="pronoun-card" onclick="speakText('It. It is a dog.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#FFF3E0" stroke="#FFB74D" stroke-width="3"/>
-              <!-- Dog Ears -->
-              <path d="M28 35 Q20 50 30 58 Q34 46 32 35 Z" fill="#8D6E63"/>
-              <path d="M72 35 Q80 50 70 58 Q66 46 68 35 Z" fill="#8D6E63"/>
-              <!-- Dog Face -->
-              <circle cx="50" cy="48" r="22" fill="#D7CCC8"/>
-              <circle cx="43" cy="44" r="3" fill="#3E2723"/>
-              <circle cx="57" cy="44" r="3" fill="#3E2723"/>
-              <ellipse cx="50" cy="54" rx="5" ry="3.5" fill="#3E2723"/>
-              <path d="M50 57 Q50 63 46 62 M50 57 Q50 63 54 62" stroke="#3E2723" stroke-width="1.8" fill="none"/>
-              <rect x="25" y="82" width="50" height="14" rx="7" fill="#6D4C41"/>
-              <text x="50" y="92" font-size="7.5" fill="#FFF" font-weight="bold" text-anchor="middle">ANIMAL / TOY</text>
-            </svg>
+        <div class="flashcard" onclick="speakText('It. It is a cute dog.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&auto=format&fit=crop&q=80" alt="It" />
           </div>
-          <div class="card-title">It</div>
-          <div class="card-desc">牠 / 它 (Animal/Thing)</div>
-          <div class="card-sentence">It is a dog.</div>
+          <div class="card-word">It</div>
+          <div class="card-meaning">One animal or toy</div>
+          <div class="card-sentence">It is a cute dog.</div>
         </div>
 
-        <!-- Card: We -->
-        <div class="pronoun-card" onclick="speakText('We. We are happy.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#F3E5F5" stroke="#CE93D8" stroke-width="3"/>
-              <!-- Left Friend -->
-              <circle cx="33" cy="38" r="12" fill="#FFCC80"/>
-              <path d="M22 68 C22 52 44 52 44 68 Z" fill="#AB47BC"/>
-              <!-- Center (Me) -->
-              <circle cx="50" cy="42" r="13" fill="#FFCC80"/>
-              <path d="M35 74 C35 56 65 56 65 74 Z" fill="#FBC02D"/>
-              <circle cx="50" cy="42" r="1.8" fill="#333"/>
-              <!-- Right Friend -->
-              <circle cx="67" cy="38" r="12" fill="#FFCC80"/>
-              <path d="M56 68 C56 52 78 52 78 68 Z" fill="#29B6F6"/>
-              <!-- Group Circle Tag -->
-              <rect x="22" y="82" width="56" height="14" rx="7" fill="#7B1FA2"/>
-              <text x="50" y="92" font-size="7.5" fill="#FFF" font-weight="bold" text-anchor="middle">FRIENDS + ME</text>
-            </svg>
+        <div class="flashcard" onclick="speakText('We. We are happy classmates.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300&auto=format&fit=crop&q=80" alt="We" />
           </div>
-          <div class="card-title">We</div>
-          <div class="card-desc">我們 (Group with Me)</div>
-          <div class="card-sentence">We are happy.</div>
+          <div class="card-word">We</div>
+          <div class="card-meaning">Friends + Me</div>
+          <div class="card-sentence">We are in Class 1A.</div>
         </div>
 
-        <!-- Card: They -->
-        <div class="pronoun-card" onclick="speakText('They. They are students.')">
-          <div class="svg-container">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="46" fill="#E0F2F1" stroke="#80CBC4" stroke-width="3"/>
-              <!-- Two People Standing Together -->
-              <circle cx="36" cy="38" r="13" fill="#FFCC80"/>
-              <path d="M22 72 C22 54 50 54 50 72 Z" fill="#26A69A"/>
-              <circle cx="64" cy="38" r="13" fill="#FFCC80"/>
-              <path d="M50 72 C50 54 78 54 78 72 Z" fill="#FFA726"/>
-              <rect x="24" y="82" width="52" height="14" rx="7" fill="#00695C"/>
-              <text x="50" y="92" font-size="7.5" fill="#FFF" font-weight="bold" text-anchor="middle">THEY (OTHERS)</text>
-            </svg>
+        <div class="flashcard" onclick="speakText('They. They are my classmates.')">
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=300&auto=format&fit=crop&q=80" alt="They" />
           </div>
-          <div class="card-title">They</div>
-          <div class="card-desc">他們 / 牠們</div>
+          <div class="card-word">They</div>
+          <div class="card-meaning">More than one person</div>
           <div class="card-sentence">They are students.</div>
         </div>
 
       </div>
     </section>
 
-    <!-- Part 2: Game -->
-    <section id="game-section" class="page-section">
-      <div class="game-board">
-        <div class="score-bar">
-          <span id="level-indicator">Level: 1 / 7</span>
-          <span id="score-indicator">⭐ Score: 0</span>
+    <!-- SECTION 2: Look and Choose Pronouns -->
+    <section id="practice-sec" class="page-section">
+      <div class="quest-card">
+        <div class="status-bar">
+          <span id="pr-level">Question: 1 / 5</span>
+          <span id="pr-score">⭐ Score: 0</span>
         </div>
 
-        <div class="question-box">
-          <div id="game-svg-target" class="svg-container"></div>
-          <div id="quest-text" class="target-pronoun">I</div>
-          <p style="font-weight: 700; color: #78909C; margin-top: 10px;">Which cauldron matches?</p>
+        <div class="question-area">
+          <div class="question-img">
+            <img id="pr-img" src="" alt="Question Image" />
+          </div>
+          <div id="pr-prompt" class="sentence-display">Look at the photo!</div>
         </div>
 
-        <div class="cauldrons-zone">
-          <button class="cauldron cauldron-am" onclick="submitAnswer('am')">
-            <div class="cauldron-name">am</div>
-            <div class="cauldron-sub">Only for "I"</div>
-          </button>
-
-          <button class="cauldron cauldron-is" onclick="submitAnswer('is')">
-            <div class="cauldron-name">is</div>
-            <div class="cauldron-sub">He / She / It</div>
-          </button>
-
-          <button class="cauldron cauldron-are" onclick="submitAnswer('are')">
-            <div class="cauldron-name">are</div>
-            <div class="cauldron-sub">You / We / They</div>
-          </button>
-        </div>
-
-        <div id="feedback" class="feedback"></div>
+        <div id="pr-options" class="options-grid"></div>
+        <div id="pr-feedback" class="feedback-msg"></div>
       </div>
     </section>
+
+    <!-- SECTION 3: Fill in 'is / am / are' Sentences -->
+    <section id="quiz-sec" class="page-section">
+      <div class="quest-card">
+        <div class="status-bar">
+          <span id="verb-level">Question: 1 / 8</span>
+          <span id="verb-score">⭐ Score: 0</span>
+        </div>
+
+        <div class="question-area">
+          <div class="question-img">
+            <img id="verb-img" src="" alt="Sentence Image" />
+          </div>
+          <div id="verb-sentence" class="sentence-display">
+            I <span class="blank-pill">___</span> six years old.
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <button class="choice-btn btn-am" onclick="checkVerbAnswer('am')">am</button>
+          <button class="choice-btn btn-is" onclick="checkVerbAnswer('is')">is</button>
+          <button class="choice-btn btn-are" onclick="checkVerbAnswer('are')">are</button>
+        </div>
+
+        <div id="verb-feedback" class="feedback-msg"></div>
+      </div>
+    </section>
+
   </main>
 
   <script>
-    // Tab Switching
-    function switchTab(tab) {
+    // Tab Navigation
+    function switchSection(sec) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-      if(tab === 'learn') {
+
+      if (sec === 'cards') {
         document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('learn-section').classList.add('active');
-      } else {
+        document.getElementById('cards-sec').classList.add('active');
+      } else if (sec === 'practice') {
         document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('game-section').classList.add('active');
-        initGameQuestion();
+        document.getElementById('practice-sec').classList.add('active');
+        startPronounPractice();
+      } else if (sec === 'quiz') {
+        document.querySelectorAll('.tab-btn')[2].classList.add('active');
+        document.getElementById('quiz-sec').classList.add('active');
+        startVerbQuiz();
       }
     }
 
-    // Text-to-Speech
-    function speakText(txt) {
+    // Audio TTS Helper
+    function speakText(text) {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(txt);
-        utter.rate = 0.9;
-        utter.lang = 'en-US';
-        window.speechSynthesis.speak(utter);
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.rate = 0.9;
+        msg.lang = 'en-US';
+        window.speechSynthesis.speak(msg);
       }
     }
 
-    // Game Logic
-    const questions = [
-      { pronoun: "I", answer: "am", cardIndex: 0 },
-      { pronoun: "He", answer: "is", cardIndex: 2 },
-      { pronoun: "She", answer: "is", cardIndex: 3 },
-      { pronoun: "It", answer: "is", cardIndex: 4 },
-      { pronoun: "You", answer: "are", cardIndex: 1 },
-      { pronoun: "We", answer: "are", cardIndex: 5 },
-      { pronoun: "They", answer: "are", cardIndex: 6 }
+    // ==========================================
+    // Part 1 Challenge: Look and Choose Pronouns
+    // ==========================================
+    const pronounQuestions = [
+      {
+        img: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&auto=format&fit=crop&q=80",
+        prompt: "This is Tim. (A boy)",
+        answer: "He",
+        options: ["He", "She", "They"]
+      },
+      {
+        img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80",
+        prompt: "This is Lisa. (A girl)",
+        answer: "She",
+        options: ["He", "She", "It"]
+      },
+      {
+        img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&auto=format&fit=crop&q=80",
+        prompt: "Look at the dog.",
+        answer: "It",
+        options: ["He", "She", "It"]
+      },
+      {
+        img: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=400&auto=format&fit=crop&q=80",
+        prompt: "Two classmates talking.",
+        answer: "They",
+        options: ["He", "They", "We"]
+      },
+      {
+        img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&auto=format&fit=crop&q=80",
+        prompt: "My friend and I together.",
+        answer: "We",
+        options: ["I", "We", "They"]
+      }
     ];
 
-    let currentQ = 0;
-    let score = 0;
+    let prCurrentIdx = 0;
+    let prScoreVal = 0;
 
-    function initGameQuestion() {
-      if(currentQ >= questions.length) {
-        document.getElementById('feedback').innerHTML = "🎉 Congratulations! You are a Grammar Master!";
-        document.getElementById('feedback').className = "feedback correct";
-        speakText("Congratulations! You are a Grammar Master!");
-        return;
-      }
-      const q = questions[currentQ];
-      document.getElementById('level-indicator').innerText = `Level: ${currentQ + 1} / ${questions.length}`;
-      document.getElementById('quest-text').innerText = q.pronoun;
-      document.getElementById('feedback').innerText = "";
-      
-      // Copy corresponding SVG to target box
-      const cards = document.querySelectorAll('.pronoun-card .svg-container');
-      const targetBox = document.getElementById('game-svg-target');
-      targetBox.innerHTML = cards[q.cardIndex].innerHTML;
-      
-      speakText(q.pronoun);
+    function startPronounPractice() {
+      prCurrentIdx = 0;
+      prScoreVal = 0;
+      pronounQuestions.sort(() => Math.random() - 0.5); // Shuffle
+      loadPronounQuestion();
     }
 
-    function submitAnswer(chosenVerb) {
-      const q = questions[currentQ];
-      const feedback = document.getElementById('feedback');
-      
-      if(chosenVerb === q.answer) {
-        score += 10;
-        document.getElementById('score-indicator').innerText = `⭐ Score: ${score}`;
-        feedback.innerText = `✨ Correct! "${q.pronoun} ${q.answer}"!`;
-        feedback.className = "feedback correct";
-        speakText(`Correct! ${q.pronoun} ${q.answer}!`);
-        
-        currentQ++;
-        setTimeout(initGameQuestion, 1600);
+    function loadPronounQuestion() {
+      if (prCurrentIdx >= pronounQuestions.length) {
+        document.getElementById('pr-prompt').innerText = "Awesome! Practice Completed!";
+        document.getElementById('pr-options').innerHTML = `<button class="action-btn" onclick="startPronounPractice()">Play Again</button>`;
+        document.getElementById('pr-feedback').innerText = "Great job identifying pronouns!";
+        document.getElementById('pr-feedback').className = "feedback-msg msg-correct";
+        speakText("Awesome! Practice completed!");
+        return;
+      }
+
+      const cur = pronounQuestions[prCurrentIdx];
+      document.getElementById('pr-level').innerText = `Question: ${prCurrentIdx + 1} / ${pronounQuestions.length}`;
+      document.getElementById('pr-score').innerText = `⭐ Score: ${prScoreVal}`;
+      document.getElementById('pr-img').src = cur.img;
+      document.getElementById('pr-prompt').innerText = cur.prompt;
+      document.getElementById('pr-feedback').innerText = "";
+
+      const optContainer = document.getElementById('pr-options');
+      optContainer.innerHTML = "";
+      cur.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "choice-btn btn-pronoun";
+        btn.innerText = opt;
+        btn.onclick = () => checkPronounChoice(opt);
+        optContainer.appendChild(btn);
+      });
+
+      speakText(cur.prompt);
+    }
+
+    function checkPronounChoice(selected) {
+      const cur = pronounQuestions[prCurrentIdx];
+      const fb = document.getElementById('pr-feedback');
+
+      if (selected === cur.answer) {
+        prScoreVal += 20;
+        document.getElementById('pr-score').innerText = `⭐ Score: ${prScoreVal}`;
+        fb.innerText = `✨ Excellent! It is "${cur.answer}"!`;
+        fb.className = "feedback-msg msg-correct";
+        speakText(`Excellent! ${cur.answer}!`);
+        prCurrentIdx++;
+        setTimeout(loadPronounQuestion, 1400);
       } else {
-        feedback.innerText = `❌ Try again! "${q.pronoun}" does not use "${chosenVerb}".`;
-        feedback.className = "feedback wrong";
-        speakText(`Try again!`);
+        fb.innerText = `❌ Oops! Try again!`;
+        fb.className = "feedback-msg msg-wrong";
+        speakText("Oops! Try again!");
+      }
+    }
+
+    // ==========================================
+    // Part 2 Challenge: Fill in 'is / am / are'
+    // ==========================================
+    const verbSentences = [
+      {
+        before: "I",
+        after: "in Class 1A.",
+        answer: "am",
+        img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&auto=format&fit=crop&q=80",
+        full: "I am in Class 1A."
+      },
+      {
+        before: "This is Eric. He",
+        after: "my friend.",
+        answer: "is",
+        img: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&auto=format&fit=crop&q=80",
+        full: "This is Eric. He is my friend."
+      },
+      {
+        before: "This is Lisa. She",
+        after: "my sister.",
+        answer: "is",
+        img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80",
+        full: "This is Lisa. She is my sister."
+      },
+      {
+        before: "The dog is small. It",
+        after: "cute.",
+        answer: "is",
+        img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&auto=format&fit=crop&q=80",
+        full: "The dog is small. It is cute."
+      },
+      {
+        before: "You",
+        after: "six years old.",
+        answer: "are",
+        img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&auto=format&fit=crop&q=80",
+        full: "You are six years old."
+      },
+      {
+        before: "We",
+        after: "good friends.",
+        answer: "are",
+        img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&auto=format&fit=crop&q=80",
+        full: "We are good friends."
+      },
+      {
+        before: "They",
+        after: "in Class 1B.",
+        answer: "are",
+        img: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=400&auto=format&fit=crop&q=80",
+        full: "They are in Class 1B."
+      },
+      {
+        before: "I",
+        after: "seven years old.",
+        answer: "am",
+        img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&auto=format&fit=crop&q=80",
+        full: "I am seven years old."
+      }
+    ];
+
+    let verbIdx = 0;
+    let verbScoreVal = 0;
+    let shuffledVerbs = [];
+
+    function startVerbQuiz() {
+      verbIdx = 0;
+      verbScoreVal = 0;
+      shuffledVerbs = [...verbSentences].sort(() => Math.random() - 0.5); // Random shuffle for challenging flow
+      loadVerbQuestion();
+    }
+
+    function loadVerbQuestion() {
+      if (verbIdx >= shuffledVerbs.length) {
+        document.getElementById('verb-sentence').innerHTML = "🏆 You conquered all levels!";
+        document.getElementById('verb-feedback').innerText = "Super! You are a Be-Verb Champion!";
+        document.getElementById('verb-feedback').className = "feedback-msg msg-correct";
+        speakText("Super! You are a Be Verb Champion!");
+        return;
+      }
+
+      const q = shuffledVerbs[verbIdx];
+      document.getElementById('verb-level').innerText = `Question: ${verbIdx + 1} / ${shuffledVerbs.length}`;
+      document.getElementById('verb-score').innerText = `⭐ Score: ${verbScoreVal}`;
+      document.getElementById('verb-img').src = q.img;
+      document.getElementById('verb-sentence').innerHTML = `${q.before} <span class="blank-pill">___</span> ${q.after}`;
+      document.getElementById('verb-feedback').innerText = "";
+
+      speakText(`${q.before} blank ${q.after}`);
+    }
+
+    function checkVerbAnswer(chosen) {
+      const q = shuffledVerbs[verbIdx];
+      const fb = document.getElementById('verb-feedback');
+
+      if (chosen === q.answer) {
+        verbScoreVal += 10;
+        document.getElementById('verb-score').innerText = `⭐ Score: ${verbScoreVal}`;
+        document.getElementById('verb-sentence').innerHTML = `${q.before} <span class="blank-pill" style="color:#2E7D32;">${chosen}</span> ${q.after}`;
+        fb.innerText = `✨ Correct! "${q.full}"`;
+        fb.className = "feedback-msg msg-correct";
+        speakText(`Correct! ${q.full}`);
+
+        verbIdx++;
+        setTimeout(loadVerbQuestion, 1600);
+      } else {
+        fb.innerText = `❌ Try again! "${chosen}" does not fit here.`;
+        fb.className = "feedback-msg msg-wrong";
+        speakText("Try again!");
       }
     }
   </script>
