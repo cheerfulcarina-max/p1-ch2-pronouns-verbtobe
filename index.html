@@ -10,8 +10,6 @@
       --bg-gradient: linear-gradient(180deg, #E0F7FA 0%, #FFFDE7 100%);
       --card-bg: #FFFFFF;
       --primary: #FF7043;
-      --primary-hover: #F4511E;
-      --accent: #26A69A;
       --text: #37474F;
       --text-light: #78909C;
       --success: #2E7D32;
@@ -138,7 +136,7 @@
       border-radius: 8px;
     }
 
-    /* Part 1 Practice & Part 2 Game Board */
+    /* Challenge Boards */
     .quest-card {
       background: #FFFFFF;
       border-radius: 24px;
@@ -202,7 +200,7 @@
       color: #1B5E20;
     }
 
-    /* Interactive Options */
+    /* Options */
     .options-grid {
       display: flex;
       justify-content: center;
@@ -406,15 +404,49 @@
       }
     }
 
-    // Audio TTS Helper
-    function speakText(text) {
+    // ==========================================
+    // Enhanced High-Quality Natural Audio Engine
+    // ==========================================
+    let cachedVoices = [];
+
+    function populateVoices() {
       if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.rate = 0.9;
-        msg.lang = 'en-US';
-        window.speechSynthesis.speak(msg);
+        cachedVoices = window.speechSynthesis.getVoices();
       }
+    }
+    populateVoices();
+    if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+
+      window.speechSynthesis.cancel();
+      const msg = new SpeechSynthesisUtterance(text);
+
+      // P1 friendly: Slower pace (0.72) and gentle pitch (1.1)
+      msg.rate = 0.72;
+      msg.pitch = 1.1;
+      msg.lang = 'en-US';
+
+      // Pick high quality natural voice across Windows, Android, and iOS
+      if (cachedVoices.length > 0) {
+        const preferredVoice = cachedVoices.find(v => 
+          (v.lang.startsWith('en') && (
+            v.name.includes('Natural') || 
+            v.name.includes('Online') || 
+            v.name.includes('Google') || 
+            v.name.includes('Samantha') || 
+            v.name.includes('Zira')
+          ))
+        );
+        if (preferredVoice) {
+          msg.voice = preferredVoice;
+        }
+      }
+
+      window.speechSynthesis.speak(msg);
     }
 
     // ==========================================
@@ -459,7 +491,7 @@
     function startPronounPractice() {
       prCurrentIdx = 0;
       prScoreVal = 0;
-      pronounQuestions.sort(() => Math.random() - 0.5); // Shuffle
+      pronounQuestions.sort(() => Math.random() - 0.5);
       loadPronounQuestion();
     }
 
@@ -502,7 +534,7 @@
         document.getElementById('pr-score').innerText = `⭐ Score: ${prScoreVal}`;
         fb.innerText = `✨ Excellent! It is "${cur.answer}"!`;
         fb.className = "feedback-msg msg-correct";
-        speakText(`Excellent! ${cur.answer}!`);
+        speakText(`Excellent! It is ${cur.answer}!`);
         prCurrentIdx++;
         setTimeout(loadPronounQuestion, 1400);
       } else {
@@ -581,7 +613,7 @@
     function startVerbQuiz() {
       verbIdx = 0;
       verbScoreVal = 0;
-      shuffledVerbs = [...verbSentences].sort(() => Math.random() - 0.5); // Random shuffle for challenging flow
+      shuffledVerbs = [...verbSentences].sort(() => Math.random() - 0.5);
       loadVerbQuestion();
     }
 
